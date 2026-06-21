@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anesthesia Medication Calculator</title>
+    <title>Anesthesia & Inotropes Medication Calculator</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -18,7 +18,7 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            max-width: 450px;
+            max-width: 550px;
             width: 100%;
         }
         h2 {
@@ -76,17 +76,22 @@
             border-radius: 6px;
             font-weight: bold;
             font-size: 15px;
-            margin-top: 15px;
+            margin-top: 20px;
             margin-bottom: 8px;
             border-left: 4px solid #3182ce;
         }
         .drug-item {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
             padding: 10px 5px;
             border-bottom: 1px solid #edf2f7;
-            font-size: 15px;
+            font-size: 14px;
+        }
+        .drug-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
         .drug-name {
             color: #2d3748;
@@ -95,7 +100,14 @@
         .drug-dose {
             color: #2f855a;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 15px;
+            text-align: right;
+        }
+        .ml-unit {
+            color: #718096;
+            font-weight: normal;
+            font-size: 13px;
+            margin-left: 5px;
         }
         .warning-text {
             color: #e53e3e;
@@ -109,7 +121,7 @@
 <body>
 
 <div class="container">
-    <h2>Anes Medication Cal</h2>
+    <h2>Anes & Inotropes Cal</h2>
     
     <div class="input-row">
         <div class="input-group">
@@ -126,35 +138,62 @@
     
     <div id="resultBox" class="result-box">
         
-        <div class="category-title">1. Induction Agents</div>
+        <div class="category-title">1. Intravenous Anesthetics</div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Propofol <small>(2 mg/kg)</small></span><span class="drug-dose" id="propofol-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Thiopental Sodium <small>(4 mg/kg)</small></span><span class="drug-dose" id="thiopental-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Ketamine HCl <small>(1.5 mg/kg)</small></span><span class="drug-dose" id="ketamine-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Etomidate <small>(0.3 mg/kg)</small></span><span class="drug-dose" id="etomidate-res">0</span></div></div>
+
+        <div class="category-title">2. Muscle Relaxants</div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Atracurium <small>(0.5 mg/kg)</small></span><span class="drug-dose" id="atracurium-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Cisatracurium <small>(0.15 mg/kg)</small></span><span class="drug-dose" id="cisatracurium-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Pancuronium <small>(0.1 mg/kg)</small></span><span class="drug-dose" id="pancuronium-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Rocuronium <small>(0.6 mg/kg)</small></span><span class="drug-dose" id="rocuronium-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Succinylcholine <small>(1.5 mg/kg)</small></span><span class="drug-dose" id="succinyl-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Vecuronium <small>(0.1 mg/kg)</small></span><span class="drug-dose" id="vecuronium-res">0</span></div></div>
+
+        <div class="category-title">3. Opioids & Sedatives</div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Morphine sulfate <small>(0.1 mg/kg)</small></span><span class="drug-dose" id="morphine-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Pethidine HCl <small>(1 mg/kg)</small></span><span class="drug-dose" id="pethidine-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Fentanyl citrate <small>(1.5 mcg/kg)</small></span><span class="drug-dose" id="fentanyl-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Diazepam <small>(0.2 mg/kg)</small></span><span class="drug-dose" id="diazepam-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Midazolam <small>(0.07 mg/kg)</small></span><span class="drug-dose" id="midazolam-res">0</span></div></div>
+
+        <div class="category-title">4. Reverse Agents</div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Neostigmine <small>(0.05 mg/kg, Max 5mg)</small></span><span class="drug-dose" id="neostigmine-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Sugammadex <small>(Routine: 2 mg/kg)</small></span><span class="drug-dose" id="sugammadex-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Atropine sulfate <small>(0.02 mg/kg)</small></span><span class="drug-dose" id="atropine-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Glycopyrronium <small>(0.01 mg/kg)</small></span><span class="drug-dose" id="glycopyrronium-res">0</span></div></div>
+
+        <div class="category-title">5. Inotropes / Vasopressors: Alpha-Dominant (หดหลอดเลือด)</div>
         <div class="drug-item">
-            <span class="drug-name">Propofol <small>(2 mg/kg)</small></span>
-            <span class="drug-dose"><span id="propofol-res">0</span> mg</span>
+            <div class="drug-top-row"><span class="drug-name">Norepinephrine (Levophed)</span><span class="drug-dose" id="norepi-res">0</span></div>
         </div>
         <div class="drug-item">
-            <span class="drug-name">Etomidate <small>(0.3 mg/kg)</small></span>
-            <span class="drug-dose"><span id="etomidate-res">0</span> mg</span>
+            <div class="drug-top-row"><span class="drug-name">Phenylephrine</span><span class="drug-dose" id="phenyl-res">0</span></div>
         </div>
 
-        <div class="category-title">2. Opioids</div>
+        <div class="category-title">6. Inotropes / Vasopressors: Beta-Dominant (กระตุ้นหัวใจ)</div>
         <div class="drug-item">
-            <span class="drug-name">Fentanyl <small>(1.5 mcg/kg)</small></span>
-            <span class="drug-dose"><span id="fentanyl-res">0</span> mcg</span>
+            <div class="drug-top-row"><span class="drug-name">Dopamine</span><span class="drug-dose" id="dopa-res">0</span></div>
         </div>
         <div class="drug-item">
-            <span class="drug-name">Morphine <small>(0.1 mg/kg)</small></span>
-            <span class="drug-dose"><span id="morphine-res">0</span> mg</span>
+            <div class="drug-top-row"><span class="drug-name">Dobutamine</span><span class="drug-dose" id="dobuta-res">0</span></div>
+        </div>
+        <div class="drug-item">
+            <div class="drug-top-row"><span class="drug-name">Epinephrine (Adrenaline)</span><span class="drug-dose" id="epi-res">0</span></div>
         </div>
 
-        <div class="category-title">3. Muscle Relaxants</div>
-        <div class="drug-item">
-            <span class="drug-name">Rocuronium <small>(0.6 mg/kg)</small></span>
-            <span class="drug-dose"><span id="rocuronium-res">0</span> mg</span>
-        </div>
-        <div class="drug-item">
-            <span class="drug-name">Succinylcholine <small>(1.5 mg/kg)</small></span>
-            <span class="drug-dose"><span id="succinyl-res">0</span> mg</span>
-        </div>
+        <div class="category-title">7. Drugs for Malignant Hyperthermia</div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Dantrolene sodium <small>(Initial 2.5 mg/kg)</small></span><span class="drug-dose" id="dantrolene-res">0</span></div></div>
+
+        <div class="category-title">8. Local Anesthetics (Maximum Infiltration Dose)</div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Lidocaine plain <small>(Max 5 mg/kg)</small></span><span class="drug-dose" id="lidocaine-plain-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Lidocaine + Epinephrine <small>(Max 7 mg/kg)</small></span><span class="drug-dose" id="lidocaine-epi-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Mepivacaine plain <small>(Max 5 mg/kg)</small></span><span class="drug-dose" id="mepivacaine-plain-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Mepivacaine + Epinephrine <small>(Max 7 mg/kg)</small></span><span class="drug-dose" id="mepivacaine-epi-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Bupivacaine plain <small>(Max 2 mg/kg)</small></span><span class="drug-dose" id="bupivacaine-plain-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Bupivacaine + Epinephrine <small>(Max 2.5 mg/kg)</small></span><span class="drug-dose" id="bupivacaine-epi-res">0</span></div></div>
 
     </div>
     
@@ -173,33 +212,103 @@ function calculateAnesthesia() {
         return;
     }
     
-    // --- ส่วนตรรกะการคำนวณขนาดยา (สามารถปรับแก้สูตรตรงนี้ได้) ---
-    
-    // 1. Induction Agents
+    // --- 1. Intravenous Anesthetics ---
     let propofolDose = weight * 2;
-    if (age > 65) { propofolDose *= 0.8; } // ปรับลดขนาดยาลง 20% ในผู้สูงอายุ
-    let etomidateDose = weight * 0.3;
+    if (age > 55) { propofolDose = weight * 1.25; } 
+    const propofolMl = propofolDose / 10; 
     
-    // 2. Opioids
-    let fentanylDose = weight * 1.5;
-    let morphineDose = weight * 0.1;
-    
-    // 3. Muscle Relaxants
-    let rocuroniumDose = weight * 0.6;
-    let succinylDose = weight * 1.5;
-    
-    // --- นำผลลัพธ์ไปแสดงผลบนหน้าจอ ---
-    document.getElementById('propofol-res').innerText = propofolDose.toFixed(1);
-    document.getElementById('etomidate-res').innerText = etomidateDose.toFixed(1);
-    document.getElementById('fentanyl-res').innerText = fentanylDose.toFixed(1);
-    document.getElementById('morphine-res').innerText = morphineDose.toFixed(1);
-    document.getElementById('rocuronium-res').innerText = rocuroniumDose.toFixed(1);
-    document.getElementById('succinyl-res').innerText = succinylDose.toFixed(1);
-    
-    // เปิดการแสดงผลกล่องผลลัพธ์
-    document.getElementById('resultBox').style.display = 'block';
-}
-</script>
+    let thiopentalDose = weight * 4;
+    if (thiopentalDose > 500) { thiopentalDose = 500; }
+    const thiopentalMl = thiopentalDose / 25; 
 
-</body>
-</html>
+    let ketamineDose = weight * 1.5;
+    const ketamineMl = ketamineDose / 50; 
+
+    let etomidateDose = weight * 0.3; 
+    const etomidateMl = etomidateDose / 2; 
+    
+    // --- 2. Muscle Relaxants ---
+    let atracuriumDose = weight * 0.5;
+    const atracuriumMl = atracuriumDose / 10; 
+
+    let cisatracuriumDose = weight * 0.15;
+    const cisatracuriumMl = cisatracuriumDose / 2; 
+
+    let pancuroniumDose = weight * 0.1;
+    const pancuroniumMl = pancuroniumDose / 2; 
+
+    let rocuroniumDose = weight * 0.6; 
+    const rocuroniumMl = rocuroniumDose / 10; 
+    
+    let succinylDose = weight * 1.5; 
+    const succinylMl = succinylDose / 50; 
+
+    let vecuroniumDose = weight * 0.1;
+    const vecuroniumMl = vecuroniumDose / 1; 
+
+    // --- 3. Opioids & Sedatives ---
+    let morphineDose = weight * 0.1; 
+    const morphineMl = morphineDose / 10; 
+    
+    let pethidineDose = weight * 1;
+    const pethidineMl = pethidineDose / 50; 
+
+    let fentanylDose = weight * 1.5; 
+    const fentanylMl = fentanylDose / 50; 
+
+    let diazepamDose = weight * 0.2;
+    const diazepamMl = diazepamDose / 5; 
+
+    let midazolamDose = weight * 0.07;
+    const midazolamMl = midazolamDose / 5; 
+
+    // --- 4. Reverse Agents ---
+    let neostigmineDose = weight * 0.05; 
+    if (neostigmineDose > 5.0) { neostigmineDose = 5.0; } 
+    const neostigmineMl = neostigmineDose / 2.5; 
+
+    let sugammadexDose = weight * 2;
+    const sugammadexMl = sugammadexDose / 100; 
+
+    let atropineDose = weight * 0.02;
+    const atropineMl = atropineDose / 0.6; 
+
+    let glycopyrroniumDose = weight * 0.01;
+    const glycopyrroniumMl = glycopyrroniumDose / 0.2; 
+
+    // --- 5 & 6. Inotropes & Vasopressors ---
+    let norepiMin = weight * 0.05;
+    let norepiMax = weight * 0.3;
+    let norepiRateMin = (norepiMin * 60) / 16;
+    let norepiRateMax = (norepiMax * 60) / 16;
+
+    let phenylMin = 40;
+    let phenylMax = 180;
+    let phenylRateMin = (phenylMin * 60) / 40;
+    let phenylRateMax = (phenylMax * 60) / 40;
+
+    let dopaMin = weight * 2;
+    let dopaMax = weight * 20;
+    let dopaRateMin = (dopaMin * 60) / 1000;
+    let dopaRateMax = (dopaMax * 60) / 1000;
+
+    let dobutaMin = weight * 2;
+    let dobutaMax = weight * 20;
+    let dobutaRateMin = (dobutaMin * 60) / 1000;
+    let dobutaRateMax = (dobutaMax * 60) / 1000;
+
+    let epiMin = weight * 0.05;
+    let epiMax = weight * 0.3;
+    let epiRateMin = (epiMin * 60) / 16;
+    let epiRateMax = (epiMax * 60) / 16;
+
+    // --- 7. Dantrolene ---
+    let dantroleneDose = weight * 2.5;
+    const dantroleneMl = (dantroleneDose / 20) * 60; 
+
+    // --- 8. Local Anesthetics ---
+    let lidocainePlainMax = weight * 5; if (lidocainePlainMax > 300) { lidocainePlainMax = 300; }
+    const lidocainePlainMl = lidocainePlainMax / 10; 
+
+    let lidocaineEpiMax = weight * 7; if (lidocaineEpiMax > 500) { lidocaineEpiMax = 500; }
+    const lidocaineEpiMl = lidocaineEpi
