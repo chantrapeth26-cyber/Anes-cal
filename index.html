@@ -188,4 +188,185 @@
         <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Dantrolene sodium <small>(Initial 2.5 mg/kg)</small></span><span class="drug-dose" id="dantrolene-res">0</span></div></div>
 
         <div class="category-title">8. Local Anesthetics (Maximum Infiltration Dose)</div>
-        <div class="drug-item
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Lidocaine plain <small>(Max 5 mg/kg)</small></span><span class="drug-dose" id="lidocaine-plain-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Lidocaine + Epinephrine <small>(Max 7 mg/kg)</small></span><span class="drug-dose" id="lidocaine-epi-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Mepivacaine plain <small>(Max 5 mg/kg)</small></span><span class="drug-dose" id="mepivacaine-plain-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Mepivacaine + Epinephrine <small>(Max 7 mg/kg)</small></span><span class="drug-dose" id="mepivacaine-epi-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Bupivacaine plain <small>(Max 2 mg/kg)</small></span><span class="drug-dose" id="bupivacaine-plain-res">0</span></div></div>
+        <div class="drug-item"><div class="drug-top-row"><span class="drug-name">Bupivacaine + Epinephrine <small>(Max 2.5 mg/kg)</small></span><span class="drug-dose" id="bupivacaine-epi-res">0</span></div></div>
+
+    </div>
+    
+    <div class="warning-text">
+        *คำเตือน: โปรแกรมนี้ใช้เป็นแนวทางเบื้องต้นเท่านั้น ขนาดยาจริงต้องปรับตามสภาพร่างกาย โรคประจำตัว และดุลยพินิจของวิสัญญีแพทย์ผู้ดูแลผู้ป่วยเป็นสำคัญ
+    </div>
+</div>
+
+<script>
+function calculateAnesthesia() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const age = parseFloat(document.getElementById('age').value);
+    
+    if (isNaN(weight) || isNaN(age) || weight <= 0 || age < 0) {
+        alert("กรุณากรอกข้อมูลน้ำหนักและอายุให้ถูกต้องครบถ้วนครับ");
+        return;
+    }
+    
+    // --- 1. Intravenous Anesthetics ---
+    let propofolDose = weight * 2;
+    if (age > 55) { propofolDose = weight * 1.25; } 
+    const propofolMl = propofolDose / 10; 
+    
+    let thiopentalDose = weight * 4;
+    if (thiopentalDose > 500) { thiopentalDose = 500; }
+    const thiopentalMl = thiopentalDose / 25; 
+
+    let ketamineDose = weight * 1.5;
+    const ketamineMl = ketamineDose / 50; 
+
+    let etomidateDose = weight * 0.3; 
+    const etomidateMl = etomidateDose / 2; 
+    
+    // --- 2. Muscle Relaxants ---
+    let atracuriumDose = weight * 0.5;
+    const atracuriumMl = atracuriumDose / 10; 
+
+    let cisatracuriumDose = weight * 0.15;
+    const cisatracuriumMl = cisatracuriumDose / 2; 
+
+    let pancuroniumDose = weight * 0.1;
+    const pancuroniumMl = pancuroniumDose / 2; 
+
+    let rocuroniumDose = weight * 0.6; 
+    const rocuroniumMl = rocuroniumDose / 10; 
+    
+    let succinylDose = weight * 1.5; 
+    const succinylMl = succinylDose / 50; 
+
+    let vecuroniumDose = weight * 0.1;
+    const vecuroniumMl = vecuroniumDose / 1; 
+
+    // --- 3. Opioids & Sedatives ---
+    let morphineDose = weight * 0.1; 
+    const morphineMl = morphineDose / 10; 
+    
+    let pethidineDose = weight * 1;
+    const pethidineMl = pethidineDose / 50; 
+
+    let fentanylDose = weight * 1.5; 
+    const fentanylMl = fentanylDose / 50; 
+
+    let diazepamDose = weight * 0.2;
+    const diazepamMl = diazepamDose / 5; 
+
+    let midazolamDose = weight * 0.07;
+    const midazolamMl = midazolamDose / 5; 
+
+    // --- 4. Reverse Agents ---
+    let neostigmineDose = weight * 0.05; 
+    if (neostigmineDose > 5.0) { neostigmineDose = 5.0; } 
+    const neostigmineMl = neostigmineDose / 2.5; 
+
+    let sugammadexDose = weight * 2;
+    const sugammadexMl = sugammadexDose / 100; 
+
+    let atropineDose = weight * 0.02;
+    const atropineMl = atropineDose / 0.6; 
+
+    let glycopyrroniumDose = weight * 0.01;
+    const glycopyrroniumMl = glycopyrroniumDose / 0.2; 
+
+    // --- 5 & 6. Inotropes & Vasopressors ---
+    let norepiMin = weight * 0.05;
+    let norepiMax = weight * 0.3;
+    let norepiRateMin = (norepiMin * 60) / 16;
+    let norepiRateMax = (norepiMax * 60) / 16;
+
+    let phenylMin = 40;
+    let phenylMax = 180;
+    let phenylRateMin = (phenylMin * 60) / 40;
+    let phenylRateMax = (phenylMax * 60) / 40;
+
+    let dopaMin = weight * 2;
+    let dopaMax = weight * 20;
+    let dopaRateMin = (dopaMin * 60) / 1000;
+    let dopaRateMax = (dopaMax * 60) / 1000;
+
+    let dobutaMin = weight * 2;
+    let dobutaMax = weight * 20;
+    let dobutaRateMin = (dobutaMin * 60) / 1000;
+    let dobutaRateMax = (dobutaMax * 60) / 1000;
+
+    let epiMin = weight * 0.05;
+    let epiMax = weight * 0.3;
+    let epiRateMin = (epiMin * 60) / 16;
+    let epiRateMax = (epiMax * 60) / 16;
+
+    // --- 7. Dantrolene ---
+    let dantroleneDose = weight * 2.5;
+    const dantroleneMl = (dantroleneDose / 20) * 60; 
+
+    // --- 8. Local Anesthetics ---
+    let lidocainePlainMax = weight * 5; if (lidocainePlainMax > 300) { lidocainePlainMax = 300; }
+    const lidocainePlainMl = lidocainePlainMax / 10; 
+
+    let lidocaineEpiMax = weight * 7; if (lidocaineEpiMax > 500) { lidocaineEpiMax = 500; }
+    const lidocaineEpiMl = lidocaineEpiMax / 10; 
+
+    let mepivacainePlainMax = weight * 5; if (mepivacainePlainMax > 300) { mepivacainePlainMax = 300; }
+    const mepivacainePlainMl = mepivacainePlainMax / 10; 
+
+    let mepivacaineEpiMax = weight * 7; if (mepivacaineEpiMax > 500) { mepivacaineEpiMax = 500; }
+    const mepivacaineEpiMl = mepivacaineEpiMax / 20; 
+
+    let bupivacainePlainMax = weight * 2; if (bupivacainePlainMax > 175) { bupivacainePlainMax = 175; }
+    const bupivacainePlainMl = bupivacainePlainMax / 2.5; 
+
+    let bupivacaineEpiMax = weight * 2.5; if (bupivacaineEpiMax > 225) { bupivacaineEpiMax = 225; }
+    const bupivacaineEpiMl = bupivacaineEpiMax / 5; 
+    
+    // --- Render Results ---
+    document.getElementById('propofol-res').innerHTML = `${propofolDose.toFixed(1)} mg <span class="ml-unit">(${propofolMl.toFixed(1)} ml)</span>`;
+    document.getElementById('thiopental-res').innerHTML = `${thiopentalDose.toFixed(1)} mg <span class="ml-unit">(${thiopentalMl.toFixed(1)} ml)</span>`;
+    document.getElementById('ketamine-res').innerHTML = `${ketamineDose.toFixed(1)} mg <span class="ml-unit">(${ketamineMl.toFixed(1)} ml)</span>`;
+    document.getElementById('etomidate-res').innerHTML = `${etomidateDose.toFixed(1)} mg <span class="ml-unit">(${etomidateMl.toFixed(1)} ml)</span>`;
+    
+    document.getElementById('atracurium-res').innerHTML = `${atracuriumDose.toFixed(1)} mg <span class="ml-unit">(${atracuriumMl.toFixed(1)} ml)</span>`;
+    document.getElementById('cisatracurium-res').innerHTML = `${cisatracuriumDose.toFixed(1)} mg <span class="ml-unit">(${cisatracuriumMl.toFixed(1)} ml)</span>`;
+    document.getElementById('pancuronium-res').innerHTML = `${pancuroniumDose.toFixed(1)} mg <span class="ml-unit">(${pancuroniumMl.toFixed(1)} ml)</span>`;
+    document.getElementById('rocuronium-res').innerHTML = `${rocuroniumDose.toFixed(1)} mg <span class="ml-unit">(${rocuroniumMl.toFixed(1)} ml)</span>`;
+    document.getElementById('succinyl-res').innerHTML = `${succinylDose.toFixed(1)} mg <span class="ml-unit">(${succinylMl.toFixed(1)} ml)</span>`;
+    document.getElementById('vecuronium-res').innerHTML = `${vecuroniumDose.toFixed(1)} mg <span class="ml-unit">(${vecuroniumMl.toFixed(1)} ml)</span>`;
+    
+    document.getElementById('morphine-res').innerHTML = `${morphineDose.toFixed(1)} mg <span class="ml-unit">(${morphineMl.toFixed(1)} ml)</span>`;
+    document.getElementById('pethidine-res').innerHTML = `${pethidineDose.toFixed(1)} mg <span class="ml-unit">(${pethidineMl.toFixed(1)} ml)</span>`;
+    document.getElementById('fentanyl-res').innerHTML = `${fentanylDose.toFixed(1)} mcg <span class="ml-unit">(${fentanylMl.toFixed(1)} ml)</span>`;
+    document.getElementById('diazepam-res').innerHTML = `${diazepamDose.toFixed(1)} mg <span class="ml-unit">(${diazepamMl.toFixed(1)} ml)</span>`;
+    document.getElementById('midazolam-res').innerHTML = `${midazolamDose.toFixed(1)} mg <span class="ml-unit">(${midazolamMl.toFixed(1)} ml)</span>`;
+
+    document.getElementById('neostigmine-res').innerHTML = `${neostigmineDose.toFixed(2)} mg <span class="ml-unit">(${neostigmineMl.toFixed(1)} ml)</span>`;
+    document.getElementById('sugammadex-res').innerHTML = `${sugammadexDose.toFixed(1)} mg <span class="ml-unit">(${sugammadexMl.toFixed(1)} ml)</span>`;
+    document.getElementById('atropine-res').innerHTML = `${atropineDose.toFixed(2)} mg <span class="ml-unit">(${atropineMl.toFixed(1)} ml)</span>`;
+    document.getElementById('glycopyrronium-res').innerHTML = `${glycopyrroniumDose.toFixed(2)} mg <span class="ml-unit">(${glycopyrroniumMl.toFixed(1)} ml)</span>`;
+    
+    document.getElementById('norepi-res').innerHTML = `${norepiMin.toFixed(1)}-${norepiMax.toFixed(1)} mcg/min <span class="ml-unit">(${norepiRateMin.toFixed(1)}-${norepiRateMax.toFixed(1)} ml/hr)</span>`;
+    document.getElementById('phenyl-res').innerHTML = `${phenylMin}-${phenylMax} mcg/min <span class="ml-unit">(${phenylRateMin.toFixed(1)}-${phenylRateMax.toFixed(1)} ml/hr)</span>`;
+    document.getElementById('dopa-res').innerHTML = `${dopaMin.toFixed(0)}-${dopaMax.toFixed(0)} mcg/min <span class="ml-unit">(${dopaRateMin.toFixed(1)}-${dopaRateMax.toFixed(1)} ml/hr)</span>`;
+    document.getElementById('dobuta-res').innerHTML = `${dobutaMin.toFixed(0)}-${dobutaMax.toFixed(0)} mcg/min <span class="ml-unit">(${dobutaRateMin.toFixed(1)}-${dobutaRateMax.toFixed(1)} ml/hr)</span>`;
+    document.getElementById('epi-res').innerHTML = `${epiMin.toFixed(1)}-${epiMax.toFixed(1)} mcg/min <span class="ml-unit">(${epiRateMin.toFixed(1)}-${epiRateMax.toFixed(1)} ml/hr)</span>`;
+
+    document.getElementById('dantrolene-res').innerHTML = `${dantroleneDose.toFixed(1)} mg <span class="ml-unit">(${dantroleneMl.toFixed(1)} ml)</span>`;
+    
+    document.getElementById('lidocaine-plain-res').innerHTML = `${lidocainePlainMax.toFixed(0)} mg <span class="ml-unit">(${lidocainePlainMl.toFixed(1)} ml)</span>`;
+    document.getElementById('lidocaine-epi-res').innerHTML = `${lidocaineEpiMax.toFixed(0)} mg <span class="ml-unit">(${lidocaineEpiMl.toFixed(1)} ml)</span>`;
+    document.getElementById('mepivacaine-plain-res').innerHTML = `${mepivacainePlainMax.toFixed(0)} mg <span class="ml-unit">(${mepivacainePlainMl.toFixed(1)} ml)</span>`;
+    document.getElementById('mepivacaine-epi-res').innerHTML = `${mepivacaineEpiMax.toFixed(0)} mg <span class="ml-unit">(${mepivacaineEpiMl.toFixed(1)} ml)</span>`;
+    document.getElementById('bupivacaine-plain-res').innerHTML = `${bupivacainePlainMax.toFixed(0)} mg <span class="ml-unit">(${bupivacainePlainMl.toFixed(1)} ml)</span>`;
+    document.getElementById('bupivacaine-epi-res').innerHTML = `${bupivacaineEpiMax.toFixed(0)} mg <span class="ml-unit">(${bupivacaineEpiMl.toFixed(1)} ml)</span>`;
+    
+    document.getElementById('resultBox').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
